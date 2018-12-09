@@ -37,7 +37,11 @@
             this.saveToPathFile = new System.Windows.Forms.Button();
             this.deleteToPath = new System.Windows.Forms.Button();
             this.saveToPath = new System.Windows.Forms.Button();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // downloadFile
@@ -57,10 +61,13 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(345, 58);
+            this.dataGridView1.Location = new System.Drawing.Point(623, 93);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(297, 380);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(300, 345);
             this.dataGridView1.TabIndex = 1;
             // 
             // directories
@@ -121,11 +128,47 @@
             this.saveToPath.UseVisualStyleBackColor = true;
             this.saveToPath.Click += new System.EventHandler(this.saveToPath_Click_1);
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(345, 93);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.Size = new System.Drawing.Size(240, 345);
+            this.dataGridView2.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label2.Font = new System.Drawing.Font("Courier New", 12F);
+            this.label2.Location = new System.Drawing.Point(346, 60);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 18);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Директорий";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label3.Font = new System.Drawing.Font("Courier New", 12F);
+            this.label3.Location = new System.Drawing.Point(620, 62);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 18);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Файлов";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(647, 457);
+            this.ClientSize = new System.Drawing.Size(1034, 536);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.saveToPath);
             this.Controls.Add(this.deleteToPath);
             this.Controls.Add(this.saveToPathFile);
@@ -138,6 +181,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,6 +198,9 @@
         private System.Windows.Forms.Button saveToPathFile;
         private System.Windows.Forms.Button deleteToPath;
         private System.Windows.Forms.Button saveToPath;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

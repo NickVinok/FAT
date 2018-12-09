@@ -122,9 +122,14 @@ namespace modelFat
             return new Dictionary<int, T>();
         }
 
-        public int getLastIndex()
+        public int GetLastIndex()
         {           
             return tail.GetIndex();
+        }
+
+        public int GetFirstIndex()
+        {
+            return head.GetIndex();
         }
 
         // добвление в начало

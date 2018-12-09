@@ -20,7 +20,7 @@ namespace modelFat
         FileList<BitArray> listL;
         DataGridView viewData;
         FileOperate<BitArray> FO;
-        Dictionary<string, Dictionary<string, int>> DirectoriesTable;
+        private Dictionary<string, int> DirectoriesTable;
 
 
 
@@ -33,6 +33,7 @@ namespace modelFat
             }
             listL = new FileList<BitArray>(FAT);
             FO = new FileOperate<BitArray>(listL);
+            DirectoriesTable = new Dictionary<string, int>();
             InitTree();
         }
         private byte[] sourceFile;
@@ -74,6 +75,24 @@ namespace modelFat
             dataGridView1.DataSource = table;
         }
 
+        public void ShowDirectory()
+        {
+            viewData = new DataGridView();
+            DataTable table = new DataTable();
+            table.Columns.Add();
+            table.Columns.Add();
+            var i = 0;
+            foreach (var item in DirectoriesTable)
+            {
+                table.Rows.Add(table.NewRow());
+                table.Rows[i][0] = item.Key;                
+                table.Rows[i][1] = item.Value;
+                i++;
+            }
+            dataGridView2.DataSource = table;
+        }
+
+
         public void InitTree() {
             TreeNode rootNode = new TreeNode("/");
             directories.Nodes.Add(rootNode);
@@ -90,23 +109,38 @@ namespace modelFat
         private string LastSearchText;
         private string LastAddFile;
 
+        /**
+         * TODO
+         * ВЫНЕСТИ ВСЕ ГОВНО С СОЗДАНИЕМ ДИРЕКТРИЙ В ОТДЕЛЬНЫЙ КЛАСС МУДИЛА!
+         * */
+
+
+
+        //Создание папки
         private void saveToPath_Click_1(object sender, EventArgs e)
         {
-            string[] paths = pathToFile.Text.Split('/');
+            //string[] paths = pathToFile.Text.Split('/');
+            AddFile(pathToFile.Text);
 
-            var dir = paths[paths.Length -2];
+
+        }
+
+        public bool AddFile(string path)
+        {
+            string[] paths = path.Split('/');
+            var dir = paths[paths.Length - 2];
             var newDir = paths[paths.Length - 1];
             if (dir == "")
                 dir = "/";
 
             if (LastAddFile == newDir)
-                return;
+                return false;
 
             if (LastSearchText != newDir)
             {
                 //It's a new Search
                 CurrentNodeMatches.Clear();
-                LastSearchText = dir;                    
+                LastSearchText = dir;
                 LastNodeIndex = 0;
                 SearchNodes(dir, directories.Nodes[0]);
             }
@@ -115,8 +149,8 @@ namespace modelFat
             {
                 TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
                 try
-                {                        
-                    selectedNode.Nodes[LastNodeIndex-1].Nodes.Add(new TreeNode(newDir));
+                {
+                    selectedNode.Nodes[LastNodeIndex - 1].Nodes.Add(new TreeNode(newDir));
                     LastAddFile = newDir;
                 }
                 catch (Exception)
@@ -124,18 +158,19 @@ namespace modelFat
                     selectedNode.Nodes.Add(new TreeNode(newDir));
                     LastAddFile = newDir;
                 }
-                            
+
                 var tmp = selectedNode.Nodes;
 
                 LastNodeIndex++;
                 this.directories.SelectedNode = selectedNode;
                 this.directories.SelectedNode.Expand();
                 this.directories.Select();
-
+                return true;
             }
             else
             {
                 MessageBox.Show("Данной директории не существует");
+                return false;
             }
         }
         
@@ -156,10 +191,17 @@ namespace modelFat
         }
 
         
-
+        //Заполнение таблицы директории файлами
         private void saveToPath_Click(object sender, EventArgs e)
         {
-
+            if(AddFile(pathToFile.Text))
+            {
+                saveFile();
+                DirectoriesTable.Add(pathToFile.Text, listL.GetFirstIndex());
+                ShowFAT();
+                ShowDirectory();
+            }
+            
         }
 
         private void deleteToPath_Click_1(object sender, EventArgs e)
