@@ -119,8 +119,9 @@ namespace modelFat
         //Создание папки
         private void saveToPath_Click_1(object sender, EventArgs e)
         {
-            //string[] paths = pathToFile.Text.Split('/');
-            AddFile(pathToFile.Text);
+            string[] paths = pathToFile.Text.Split('/');
+            if(!DirectoriesTable.Keys.Contains("/"+paths[paths.Length-2])) 
+                AddFile(pathToFile.Text);
 
 
         }
