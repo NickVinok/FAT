@@ -10,15 +10,15 @@ namespace modelFat
     {
         public T Data;
         public Node<T> Next { get; set; }
-        public int index { get; set; }
-        public int indexNext { get; set; }
+        public int Index { get; set; }
+        public int IndexNext { get; set; }
         public Node(T data, int index, int indexNext)
         {
             Data = data;
-            this.index = index;
-            this.indexNext = indexNext;
+            this.Index = index;
+            this.IndexNext = indexNext;
         }
-        public int GetIndex() { return this.index; }
-        public int GetIndexNext() { return this.indexNext; }
+        public int GetIndex() { return this.Index; }
+        public int GetIndexNext() { return this.IndexNext; }
     }
 }

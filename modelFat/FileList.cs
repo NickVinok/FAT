@@ -111,16 +111,22 @@ namespace modelFat
             Node<T> current = head;
             while (current != null)
             {
-                if (current.index == startInx)
+                if (current.Index == startInx)
                 {
                     return new Dictionary<int, T>() {
-                        { current.indexNext, current.Data }
+                        { current.IndexNext, current.Data }
                     };
                 }
                 current = current.Next;
             }
             return new Dictionary<int, T>();
         }
+
+        public int getLastIndex()
+        {           
+            return tail.GetIndex();
+        }
+
         // добвление в начало
         //public void AppendFirst(T data)
         //{
