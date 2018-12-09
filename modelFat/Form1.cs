@@ -88,53 +88,54 @@ namespace modelFat
         private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
         private int LastNodeIndex = 0;
         private string LastSearchText;
-        private string LastSearchTextFull;
+        private string LastAddFile;
 
-        private void saveToPath_Click(object sender, EventArgs e)
+        private void saveToPath_Click_1(object sender, EventArgs e)
         {
             string[] paths = pathToFile.Text.Split('/');
 
-            if (LastSearchTextFull == pathToFile.Text)
+            var dir = paths[paths.Length -2];
+            var newDir = paths[paths.Length - 1];
+            if (dir == "")
+                dir = "/";
+
+            if (LastAddFile == newDir)
                 return;
 
-            LastSearchTextFull = pathToFile.Text;
-            for (int i = 0; i < paths.Length - 1; i++)
+            if (LastSearchText != newDir)
             {
-                var dir = paths[i];
-                if (dir == "")
-                    dir = "/";
+                //It's a new Search
+                CurrentNodeMatches.Clear();
+                LastSearchText = dir;                    
+                LastNodeIndex = 0;
+                SearchNodes(dir, directories.Nodes[0]);
+            }
 
-                if (LastSearchText != dir)
-                {
-                    //It's a new Search
-                    CurrentNodeMatches.Clear();
-                    LastSearchText = dir;                    
-                    //LastNodeIndex = 0;
-                    SearchNodes(dir, directories.TopNode.Nodes[0]);
+            if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
+            {
+                TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
+                try
+                {                        
+                    selectedNode.Nodes[LastNodeIndex-1].Nodes.Add(new TreeNode(newDir));
+                    LastAddFile = newDir;
                 }
-
-                if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
+                catch (Exception)
                 {
-                    TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
-                    if (selectedNode.Text != paths[i + 1])
-                    {
-                        try
-                        {
-                            selectedNode.Nodes[0].Nodes.Add(new TreeNode(paths[i + 1]));
-                        }
-                        catch (Exception)
-                        {
-                            selectedNode.Nodes.Add(new TreeNode(paths[i + 1]));
-                        }
+                    selectedNode.Nodes.Add(new TreeNode(newDir));
+                    LastAddFile = newDir;
+                }
                             
-                        var tmp = selectedNode.Nodes;
-                    }
-                    LastNodeIndex++;
-                    this.directories.SelectedNode = selectedNode;
-                    this.directories.SelectedNode.Expand();
-                    this.directories.Select();
+                var tmp = selectedNode.Nodes;
 
-                }
+                LastNodeIndex++;
+                this.directories.SelectedNode = selectedNode;
+                this.directories.SelectedNode.Expand();
+                this.directories.Select();
+
+            }
+            else
+            {
+                MessageBox.Show("Данной директории не существует");
             }
         }
         
@@ -154,9 +155,23 @@ namespace modelFat
             };
         }
 
-        private void deleteToPath_Click(object sender, EventArgs e)
+        
+
+        private void saveToPath_Click(object sender, EventArgs e)
         {
-            directories.SelectedNode.Remove();
+
+        }
+
+        private void deleteToPath_Click_1(object sender, EventArgs e)
+        {
+            if(directories.SelectedNode.Text != "/")
+            {
+                directories.SelectedNode.Remove();
+            }
+            else
+            {
+                MessageBox.Show("Нельзя удалить корень");
+            }
         }
     }
 }
