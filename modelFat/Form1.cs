@@ -20,7 +20,8 @@ namespace modelFat
         FileList<BitArray> listL;
         DataGridView viewData;
         FileOperate<BitArray> FO;
-        private Dictionary<string, int> DirectoriesTable;
+        //private Dictionary<string, int> DirectoriesTable;
+        Directories dirs;
 
 
 
@@ -33,11 +34,13 @@ namespace modelFat
             }
             listL = new FileList<BitArray>(FAT);
             FO = new FileOperate<BitArray>(listL);
-            DirectoriesTable = new Dictionary<string, int>();
-            InitTree();
+            //DirectoriesTable = new Dictionary<string, int>();
+            this.dirs = new Directories(directories);
+            dirs.InitTree();
+            //InitTree();
         }
         private byte[] sourceFile;
-        private string sourceNameFile;
+        //private string sourceNameFile;
         private void downloadFile_Click(object sender, EventArgs e)
         {           
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -82,7 +85,7 @@ namespace modelFat
             table.Columns.Add();
             table.Columns.Add();
             var i = 0;
-            foreach (var item in DirectoriesTable)
+            foreach (var item in dirs.DirectoriesTable)
             {
                 table.Rows.Add(table.NewRow());
                 table.Rows[i][0] = item.Key;                
@@ -93,112 +96,36 @@ namespace modelFat
         }
 
 
-        public void InitTree() {
-            TreeNode rootNode = new TreeNode("/");
-            directories.Nodes.Add(rootNode);
+        
 
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-
-
-        private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
-        private int LastNodeIndex = 0;
-        private string LastSearchText;
-        private string LastAddFile;
-
-        /**
-         * TODO
-         * ВЫНЕСТИ ВСЕ ГОВНО С СОЗДАНИЕМ ДИРЕКТРИЙ В ОТДЕЛЬНЫЙ КЛАСС МУДИЛА!
-         * */
-
+        
 
 
         //Создание папки
         private void saveToPath_Click_1(object sender, EventArgs e)
         {
             string[] paths = pathToFile.Text.Split('/');
-            if(!DirectoriesTable.Keys.Contains("/"+paths[paths.Length-2])) 
-                AddFile(pathToFile.Text);
+            if(!dirs.DirectoriesTable.Keys.Contains("/"+paths[paths.Length-2]))
+                dirs.AddFile(pathToFile.Text);
 
 
-        }
-
-        public bool AddFile(string path)
-        {
-            string[] paths = path.Split('/');
-            var dir = paths[paths.Length - 2];
-            var newDir = paths[paths.Length - 1];
-            if (dir == "")
-                dir = "/";
-
-            if (LastAddFile == newDir)
-                return false;
-
-            if (LastSearchText != newDir)
-            {
-                //It's a new Search
-                CurrentNodeMatches.Clear();
-                LastSearchText = dir;
-                LastNodeIndex = 0;
-                SearchNodes(dir, directories.Nodes[0]);
-            }
-
-            if (LastNodeIndex >= 0 && CurrentNodeMatches.Count > 0 && LastNodeIndex < CurrentNodeMatches.Count)
-            {
-                TreeNode selectedNode = CurrentNodeMatches[LastNodeIndex];
-                try
-                {
-                    selectedNode.Nodes[LastNodeIndex - 1].Nodes.Add(new TreeNode(newDir));
-                    LastAddFile = newDir;
-                }
-                catch (Exception)
-                {
-                    selectedNode.Nodes.Add(new TreeNode(newDir));
-                    LastAddFile = newDir;
-                }
-
-                var tmp = selectedNode.Nodes;
-
-                LastNodeIndex++;
-                this.directories.SelectedNode = selectedNode;
-                this.directories.SelectedNode.Expand();
-                this.directories.Select();
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Данной директории не существует");
-                return false;
-            }
-        }
-        
-        private void SearchNodes(string SearchText, TreeNode StartNode)
-        {            
-            while (StartNode != null)
-            {
-                if (StartNode.Text.ToLower().Contains(SearchText.ToLower()))
-                {
-                    CurrentNodeMatches.Add(StartNode);
-                };
-                if (StartNode.Nodes.Count != 0)
-                {
-                    SearchNodes(SearchText, StartNode.Nodes[0]);//Recursive Search 
-                };
-                StartNode = StartNode.NextNode;
-            };
         }
 
         
-        //Заполнение таблицы директории файлами
+
+        
+        //Заполнение таблицы директории файлами Сохранение файла
         private void saveToPath_Click(object sender, EventArgs e)
         {
-            if(AddFile(pathToFile.Text))
+            if(dirs.AddFile(pathToFile.Text))
             {
-                saveFile();
-                DirectoriesTable.Add(pathToFile.Text, listL.GetFirstIndex());
+                dirs.DirectoriesTable.Add(pathToFile.Text, listL.GetFirstEmptyBlock());
+                saveFile();                
+                
                 ShowFAT();
                 ShowDirectory();
             }
@@ -207,9 +134,18 @@ namespace modelFat
 
         private void deleteToPath_Click_1(object sender, EventArgs e)
         {
-            if(directories.SelectedNode.Text != "/")
+            if (directories.SelectedNode.Text != "/")
             {
+                /*
+                 * Дописать функцию удаления в нодах и табл директорий
+                 */
+                //string pathFile = directories.SelectedNode.Text;
+                int startIndexFile = dirs.DirectoriesTable[pathToFile.Text];
+                listL.Remove(startIndexFile);
+                dirs.DirectoriesTable.Remove(pathToFile.Text);
                 directories.SelectedNode.Remove();
+                ShowFAT();
+                ShowDirectory();
             }
             else
             {

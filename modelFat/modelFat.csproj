@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Directories.cs" />
     <Compile Include="FileAttribute.cs" />
     <Compile Include="FileNode.cs" />
     <Compile Include="FileList.cs" />

@@ -45,21 +45,30 @@ namespace modelFat
             tail = file;
             count++;
         }
-        public bool Remove(T data)
+        public bool Remove(int index)
         {
             Node<T> current = head;
             Node<T> previous = null;
 
             while (current != null)
             {
-                if (current.Data.Equals(data))
+                if (current.Index.Equals(index))
                 {
+                    FAT[current.Index] = 0;
                     // Если узел в середине или в конце
                     if (previous != null)
                     {
                         // убираем узел current, теперь previous ссылается не на current, а на current.Next
                         previous.Next = current.Next;
-
+                        if (previous.Next != null)
+                        {
+                            if (previous.Next.IndexNext == -3)
+                            {
+                                Remove(previous.Index);
+                                break;
+                            }                            
+                            
+                        }
                         // Если current.Next не установлен, значит узел последний,
                         // изменяем переменную tail
                         if (current.Next == null)
@@ -73,12 +82,24 @@ namespace modelFat
 
                         // если после удаления список пуст, сбрасываем tail
                         if (head == null)
+                        {
                             tail = null;
+                        }else{
+                            if(head.IndexNext == -3)
+                            {
+                                Remove(head.Index);
+                                break;
+                            }
+                            
+                        }
+                            
                     }
-                    count--;
+                    count--;                    
                     return true;
                 }
-
+                /*
+                 * Разобраться с удалением. Добавить проверки если файл кончился, а то если удалить 1 файл удаляются все блоки :С
+                 * */
                 previous = current;
                 current = current.Next;
             }
@@ -124,14 +145,22 @@ namespace modelFat
 
         public int GetLastIndex()
         {           
-            return tail.GetIndex();
+            return tail.GetIndexNext();
         }
 
         public int GetFirstIndex()
         {
             return head.GetIndex();
         }
-
+        public int GetFirstEmptyBlock()
+        {
+            if(tail != null)
+                return Count == 0 ? 0 : tail.Index + 1;
+            else
+            {
+                return 0;
+            }
+        }
         // добвление в начало
         //public void AppendFirst(T data)
         //{
