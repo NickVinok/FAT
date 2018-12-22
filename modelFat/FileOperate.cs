@@ -7,12 +7,16 @@ namespace modelFat
 {
     class FileOperate<T>
     {
-        private int sizeBlock = 1024;
+        //<summary>
+        //Размер 1 кластера в битах
+        //</summary>
+        public int sizeBlock = 1024;
         FileList<T> LF;
         public FileOperate(FileList<T> LF)
         {
             this.LF = LF;
         }
+
         public BitArray[] Separate(byte[] f)
         {
             if (f == null)

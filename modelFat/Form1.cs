@@ -8,12 +8,21 @@ using System.Windows.Forms;
 
 namespace modelFat
 {
+    /**
+     * TODO
+     * Доделать анализ фрагментации
+     * Дефрагментацию
+     * Исправить баги с удалением
+     * Добавить возможность перезаписи файлов
+     * И тогда придется писать поиск ошибок и фикс их а надо ли мне это
+     * */
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
             CreateFAT();
+            UpdateSystemInfo();
         }
 
         private Dictionary<int, int> FAT;
@@ -58,6 +67,7 @@ namespace modelFat
                 bool EOF = i + 1 == sepFile.Length;
                 listL.Add(sepFile[i], EOF: EOF);
             }
+            
         }
 
         public void ShowFAT()
@@ -76,6 +86,7 @@ namespace modelFat
                 i++;
             }
             dataGridView1.DataSource = table;
+            UpdateSystemInfo();
         }
 
         public void ShowDirectory()
@@ -109,10 +120,9 @@ namespace modelFat
         private void saveToPath_Click_1(object sender, EventArgs e)
         {
             string[] paths = pathToFile.Text.Split('/');
+            
             if(!dirs.DirectoriesTable.Keys.Contains("/"+paths[paths.Length-2]))
                 dirs.AddFile(pathToFile.Text);
-
-
         }
 
         
@@ -123,6 +133,7 @@ namespace modelFat
         {
             if(dirs.AddFile(pathToFile.Text))
             {
+                //Если идет запись по тому же адресу то перезаписывать 
                 dirs.DirectoriesTable.Add(pathToFile.Text, listL.GetFirstEmptyBlock());
                 saveFile();                
                 
@@ -132,13 +143,38 @@ namespace modelFat
             
         }
 
+        private double EmptySpacePercent()
+        {
+            int emptyBlock = 0;
+            foreach (var row in this.FAT)
+            {
+                //Console.WriteLine();
+                if (row.Value == 0)
+                    emptyBlock++;
+            }
+            return ((double)emptyBlock/100)*100;
+        }
+
+        private void UpdateSystemInfo()
+        {
+            double empt = EmptySpacePercent();
+            emptSpicePrc.Text = empt.ToString() + "%";
+            progressBar1.Value = Convert.ToInt32(empt);
+
+            spaceKB.Text = (((double)FO.sizeBlock * FAT.Count() / 8000) * (empt / 100)).ToString() + "Kb";
+            lossFrag.Text = CalcLossSpaceDisk().ToString() + "Bit";
+            CalcLossSpaceDisk();
+        }
+
+        private double CalcLossSpaceDisk()
+        {
+            return (double)dirs.DirectoriesTable.Count() * (double)FO.sizeBlock / 2;
+        }
+
         private void deleteToPath_Click_1(object sender, EventArgs e)
         {
             if (directories.SelectedNode.Text != "/")
             {
-                /*
-                 * Дописать функцию удаления в нодах и табл директорий
-                 */
                 //string pathFile = directories.SelectedNode.Text;
                 int startIndexFile = dirs.DirectoriesTable[pathToFile.Text];
                 listL.Remove(startIndexFile);
@@ -149,7 +185,7 @@ namespace modelFat
             }
             else
             {
-                MessageBox.Show("Нельзя удалить корень");
+                MessageBox.Show("Нельзя удалить корень файловой системы");
             }
         }
     }

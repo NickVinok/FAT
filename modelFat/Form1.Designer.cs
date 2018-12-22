@@ -40,6 +40,13 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.emptSpicePrc = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.spaceKB = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lossFrag = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +71,7 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(623, 93);
+            this.dataGridView1.Location = new System.Drawing.Point(618, 179);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(300, 345);
@@ -72,16 +79,16 @@
             // 
             // directories
             // 
-            this.directories.Location = new System.Drawing.Point(12, 93);
+            this.directories.Location = new System.Drawing.Point(12, 179);
             this.directories.Name = "directories";
-            this.directories.Size = new System.Drawing.Size(327, 345);
+            this.directories.Size = new System.Drawing.Size(322, 345);
             this.directories.TabIndex = 2;
             // 
             // pathToFile
             // 
-            this.pathToFile.Location = new System.Drawing.Point(13, 60);
+            this.pathToFile.Location = new System.Drawing.Point(12, 146);
             this.pathToFile.Name = "pathToFile";
-            this.pathToFile.Size = new System.Drawing.Size(326, 20);
+            this.pathToFile.Size = new System.Drawing.Size(322, 20);
             this.pathToFile.TabIndex = 3;
             this.pathToFile.Text = "/";
             // 
@@ -89,7 +96,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Courier New", 12F);
-            this.label1.Location = new System.Drawing.Point(9, 39);
+            this.label1.Location = new System.Drawing.Point(9, 125);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 18);
             this.label1.TabIndex = 4;
@@ -133,7 +140,7 @@
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(345, 93);
+            this.dataGridView2.Location = new System.Drawing.Point(340, 179);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(240, 345);
@@ -144,28 +151,99 @@
             this.label2.AutoSize = true;
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Courier New", 12F);
-            this.label2.Location = new System.Drawing.Point(346, 60);
+            this.label2.Location = new System.Drawing.Point(341, 146);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 18);
+            this.label2.Size = new System.Drawing.Size(188, 18);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Директорий";
+            this.label2.Text = "Таблица директорий";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label3.Font = new System.Drawing.Font("Courier New", 12F);
-            this.label3.Location = new System.Drawing.Point(620, 62);
+            this.label3.Location = new System.Drawing.Point(615, 148);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 18);
             this.label3.TabIndex = 10;
             this.label3.Text = "Файлов";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Courier New", 10.25F);
+            this.label4.Location = new System.Drawing.Point(12, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(168, 17);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Системная информация";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Courier New", 10.25F);
+            this.label5.Location = new System.Drawing.Point(36, 66);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(144, 17);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Свободного места:";
+            // 
+            // emptSpicePrc
+            // 
+            this.emptSpicePrc.AutoSize = true;
+            this.emptSpicePrc.Font = new System.Drawing.Font("Courier New", 10.25F);
+            this.emptSpicePrc.Location = new System.Drawing.Point(186, 68);
+            this.emptSpicePrc.Name = "emptSpicePrc";
+            this.emptSpicePrc.Size = new System.Drawing.Size(0, 17);
+            this.emptSpicePrc.TabIndex = 13;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(39, 84);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(168, 11);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 14;
+            // 
+            // spaceKB
+            // 
+            this.spaceKB.AutoSize = true;
+            this.spaceKB.Font = new System.Drawing.Font("Courier New", 10.25F);
+            this.spaceKB.Location = new System.Drawing.Point(243, 68);
+            this.spaceKB.Name = "spaceKB";
+            this.spaceKB.Size = new System.Drawing.Size(0, 17);
+            this.spaceKB.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(314, 68);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(154, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Потери из-за фрагментации:";
+            // 
+            // lossFrag
+            // 
+            this.lossFrag.AutoSize = true;
+            this.lossFrag.Location = new System.Drawing.Point(472, 68);
+            this.lossFrag.Name = "lossFrag";
+            this.lossFrag.Size = new System.Drawing.Size(35, 13);
+            this.lossFrag.TabIndex = 17;
+            this.lossFrag.Text = "label7";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 536);
+            this.Controls.Add(this.lossFrag);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.spaceKB);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.emptSpicePrc);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView2);
@@ -201,6 +279,13 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label emptSpicePrc;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label spaceKB;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lossFrag;
     }
 }
 
